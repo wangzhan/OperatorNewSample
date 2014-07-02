@@ -21,10 +21,16 @@ public:
     COp2(int i) : m_i(i) { std::cout << "COp2 construct " << m_i << std::endl; }
     ~COp2() { std::cout << "COp2 destruct " << m_i << std::endl; }
 
-    void* operator new (size_t size, char *lpszData) throw (std::bad_alloc)
+    void* operator new (size_t size, char *lpszData)
     {
         std::cout << "COp2 new " << lpszData << std::endl;
-        return malloc(size);
+        return ::operator new(size);
+    }
+
+    void operator delete (void *p)
+    {
+        std::cout << "COp2 delete" << std::endl;
+        ::operator delete(p);
     }
 
     int m_i;
